@@ -7,7 +7,14 @@ script:
 - tox -e devruntime
 - tox
 - tox -e docs
+
+# First invocation of setup.py script may print extra log messages as well as
+# a version number.  The below invocation ensures that its following (second)
+# invocation (for comparing to $TRAVIS_TAG) does not print any extra log
+# messages other than a version number.
+- python setup.py --version
 - '[[ "$TRAVIS_TAG" = "" ]] || [[ "$TRAVIS_TAG" = "$(python setup.py --version)" ]]'
+
 # Ensure changelog was written:
 - |
     if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then

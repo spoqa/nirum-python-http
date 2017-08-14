@@ -1,22 +1,10 @@
-from nirum.transport import Transport
 from nirum.exc import UnexpectedNirumResponseError
+from nirum.transport import Transport
 from requests import Session
-from six import string_types
-from six.moves import urllib
+
+from .util import url_endswith_slash
 
 __all__ = 'HttpTransport',
-__version__ = '0.2.0'
-
-
-def url_endswith_slash(url):
-    if not isinstance(url, string_types):
-        raise TypeError('url must be a string, not {0!r}'.format(url))
-    scheme, netloc, path, _, _ = urllib.parse.urlsplit(url)
-    if not (scheme and netloc):
-        raise ValueError("{} isn't URL.".format(url))
-    if not path.endswith('/'):
-        path += '/'
-    return urllib.parse.urlunsplit((scheme, netloc, path, '', ''))
 
 
 class HttpTransport(Transport):

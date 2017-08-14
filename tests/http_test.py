@@ -1,8 +1,9 @@
+from nirum.exc import UnexpectedNirumResponseError
 from pytest import fixture, raises
 from requests import Session
 from requests_mock import Adapter
 
-from nirum_http import HttpTransport, UnexpectedNirumResponseError
+from nirum_http import HttpTransport
 
 
 @fixture

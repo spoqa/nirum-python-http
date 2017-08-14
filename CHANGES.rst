@@ -4,7 +4,7 @@ Changelog
 Version 0.2.0
 -------------
 
-To be released.
+Add async support.
 
 
 Version 0.1.1

@@ -3,6 +3,7 @@ import os
 import re
 import sys
 
+from setuptools import find_packages
 from setuptools import setup, __version__ as setuptools_version
 
 
@@ -20,7 +21,8 @@ def readme(name='README.rst'):
 
 
 def get_version():
-    module_path = os.path.join(os.path.dirname(__file__), 'nirum_http.py')
+    module_path = os.path.join(os.path.dirname(__file__),
+                               'nirum_http', '__init__.py')
     module_file = open(module_path)
     try:
         module_code = module_file.read()
@@ -47,7 +49,7 @@ install_requires = [
 ]
 tests_require = [
     'flake8-import-order >= 0.12, < 1.0',
-    'flake8-import-order-spoqa >= 1.0.0, < 2.0.0',
+    'flake8-import-order-spoqa >= 1.0.1, < 2.0.0',
     'pytest >= 3.1.2, < 4.0.0',
     'pytest-flake8 >= 0.8.1, < 1.0.0',
     'requests-mock >= 1.3.0, < 1.4.0',
@@ -58,10 +60,19 @@ extras_require = {
 below35_requires = [
     'typing',
 ]
-
+async_require = [
+    'aiohttp',
+]
+async_test_require = [
+    'pytest-aiohttp >= 0.1.3, < 1.2.0',
+    'aiotools >= 0.4.3, < 0.5.0',
+]
 
 if 'bdist_wheel' not in sys.argv and sys.version_info < (3, 5):
     install_requires.extend(below35_requires)
+
+if sys.version_info >= (3, 5):
+    tests_require.extend(async_test_require)
 
 
 if tuple(map(int, setuptools_version.split('.'))) < (17, 1):
@@ -70,6 +81,7 @@ if tuple(map(int, setuptools_version.split('.'))) < (17, 1):
     extras_require.update({":python_version=='2.7'": below35_requires})
 else:
     extras_require.update({":python_version<'3.5'": below35_requires})
+    extras_require.update({":python_version>='3.5'": async_require})
 
 
 setup(
@@ -81,7 +93,7 @@ setup(
     author='Kang Hyojun',
     author_email='iam.kanghyojun' '@' 'gmail.com',
     license='MIT license',
-    py_modules=['nirum_http'],
+    packages=find_packages(),
     install_requires=install_requires,
     setup_requires=setup_requires,
     extras_require=extras_require

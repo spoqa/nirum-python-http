@@ -13,7 +13,7 @@ This package provides an HTTP transport for nirum-python_.
 
 .. code-block:: python
 
-   from youtservice import YourService_Client
+   from yourservice import YourService_Client
    from nirum_http import HttpTransport
 
    transport = HttpTransport('https://service-host/')
